@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLMeter - AI Cost Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0a;
+      color: #f4f4f5;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor-blink {
+      animation: blink 1s step-end infinite;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #333; }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#0a0a0a]/80 transition-all duration-300">
+    <div class="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
+      <img src="logo.webp" style="height:36px" alt="LLMeter">
+      <div class="flex items-center gap-6">
+        <a href="#how-it-works" class="text-[#a1a1aa] hover:text-[#f4f4f5] transition-colors text-sm font-medium">How it works</a>
+        <a href="#early-access" class="bg-[#C9A84C] text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#A8892E] transition-colors">Get Early Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center justify-center pt-16 px-6">
+    <div class="max-w-[1280px] mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C] text-[#C9A84C] text-sm font-medium mb-8 animate-fade-in-up">
+        <span>⬡</span>
+        <span>AI Cost Intelligence</span>
+      </div>
+      <h1 class="text-[36px] lg:text-[56px] font-bold text-white leading-tight mb-6 animate-fade-in-up delay-100">
+        Stop wasting money<br>on AI APIs.
+      </h1>
+      <p class="text-[20px] text-[#a1a1aa] max-w-2xl mx-auto mb-4 animate-fade-in-up delay-200">
+        See exactly which feature is burning your budget — in real time.<br class="hidden sm:block">
+        One line of code. No lock-in. No data team required.
+      </p>
+      <p class="text-[12px] uppercase tracking-[0.2em] text-[#a1a1aa] mb-10 animate-fade-in-up delay-300">
+        Measure. Evaluate. Improve.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in-up delay-300">
+        <a href="#early-access" class="bg-[#C9A84C] text-black px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#A8892E] transition-all duration-200 hover:scale-105 w-full sm:w-auto">
+          Get Early Access →
+        </a>
+        <a href="#how-it-works" class="border border-[#1e1e1e] text-[#a1a1aa] px-8 py-4 rounded-lg text-lg font-medium hover:border-[#C9A84C] hover:text-[#f4f4f5] transition-all duration-200 hover:scale-105 w-full sm:w-auto">
+          See How It Works
+        </a>
+      </div>
+      <div class="max-w-2xl mx-auto bg-[#18181b] rounded-xl overflow-hidden text-left animate-fade-in-up delay-300">
+        <div class="flex items-center justify-between px-6 py-3 bg-[#111111] border-b border-[#1e1e1e]">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-[#ef4444]"></div>
+            <div class="w-3 h-3 rounded-full bg-[#C9A84C]"></div>
+            <div class="w-3 h-3 rounded-full bg-[#22c55e]"></div>
+          </div>
+          <span class="text-[#a1a1aa] text-sm font-mono">bash</span>
+        </div>
+        <div class="p-6 font-mono text-sm leading-relaxed overflow-x-auto">
+          <div class="text-[#a1a1aa]">// Install LLMeter</div>
+          <div class="text-[#f4f4f5]">npm install llmeter</div>
+          <div class="mt-4 text-[#a1a1aa]">// Wrap your LLM call — that's it</div>
+          <div>
+            <span class="text-[#C0C0C0]">const</span> <span class="text-[#f4f4f5]">res</span> <span class="text-[#C0C0C0]">= await</span> <span class="text-[#f4f4f5]">llmeter</span>.<span class="text-[#f4f4f5]">track</span>(<span class="text-[#C9A84C]">"chat-feature"</span>, () <span class="text-[#C0C0C0]">=></span>
+          </div>
+          <div class="pl-4">
+            <span class="text-[#f4f4f5]">openai</span>.<span class="text-[#f4f4f5]">chat</span>.<span class="text-[#f4f4f5]">completions</span>.<span class="text-[#f4f4f5]">create</span>({ ... })
+          </div>
+          <div>);<span class="cursor-blink text-[#f4f4f5]">|</span></div>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-[#a1a1aa] text-sm animate-fade-in-up delay-300">
+        <span>✓ OpenAI</span>
+        <span>✓ Anthropic</span>
+        <span>✓ Gemini</span>
+        <span>✓ Any LLM API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Block -->
+  <section class="py-24 px-6">
+    <div class="max-w-[1280px] mx-auto">
+      <p class="text-[12px] uppercase tracking-[0.2em] text-[#C9A84C] font-semibold mb-4">THE PROBLEM</p>
+      <h2 class="text-[36px] font-bold text-white mb-12">You're flying blind on AI costs.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="pain-card bg-[#111111] border border-[#1e1e1e] rounded-xl p-6 hover:border-[#C9A84C] transition-all duration-300 opacity-0 translate-y-4">
+          <div class="text-3xl mb-4">📈</div>
+          <h3 class="text-xl font-semibold text-white mb-3">Costs spike. No answers.</h3>
+          <p class="text-[#a1a1aa] leading-[1.7]">Your API bill doubled last week. But which feature caused it? You have no idea.</p>
+        </div>
+        <div class="pain-card bg-[#111111] border border-[#1e1e1e] rounded-xl p-6 hover:border-[#C9A84C] transition-all duration-300 opacity-0 translate-y-4">
+          <div class="text-3xl mb-4">🔗</div>
+          <h3 class="text-xl font-semibold text-white mb-3">Tools that lock you in.</h3>
+          <p class="text-[#a1a1aa] leading-[1.7]">LangSmith only works if you use LangChain. Switch frameworks and you start from scratch.</p>
+        </div>
+        <div class="pain-card bg-[#111111] border border-[#1e1e1e] rounded-xl p-6 hover:border-[#C9A84C] transition-all duration-300 opacity-0 translate-y-4">
+          <div class="text-3xl mb-4">🏗️</div>
+          <h3 class="text-xl font-semibold text-white mb-3">Enterprise tools for solo devs?</h3>
+          <p class="text-[#a1a1aa] leading-[1.7]">Arize needs a dedicated data team to set up. You're a founder, not a data engineer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="py-24 px-6 bg-[#0a0a0a]">
+    <div class="max-w-[1280px] mx-auto">
+      <p class="text-[12px] uppercase tracking-[0.2em] text-[#C9A84C] font-semibold mb-4">HOW IT WORKS</p>
+      <h2 class="text-[36px] font-bold text-white mb-16">From zero to cost visibility in 3 steps.</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+        <div class="hidden lg:block absolute top-12 left-[16.67%] right-[16.67%] border-t-2 border-dotted border-[#1e1e1e]"></div>
+        <div class="relative">
+          <div class="text-[80px] font-bold text-[#C9A84C] opacity-20 leading-none mb-2">01</div>
+          <h3 class="text-xl font-semibold text-white mb-3">Install the SDK</h3>
+          <p class="text-[#a1a1aa] leading-[1.7] mb-4">One npm install. No config files. No extra API keys.</p>
+          <code class="inline-block bg-[#18181b] px-3 py-1 rounded text-[#C9A84C] font-mono text-sm">npm install llmeter</code>
+        </div>
+        <div class="relative">
+          <div class="text-[80px] font-bold text-[#C9A84C] opacity-20 leading-none mb-2">02</div>
+          <h3 class="text-xl font-semibold text-white mb-3">Tag your features</h3>
+          <p class="text-[#a1a1aa] leading-[1.7]">Wrap any LLM call with a feature name. 30 seconds per endpoint.</p>
+        </div>
+        <div class="relative">
+          <div class="text-[80px] font-bold text-[#C9A84C] opacity-20 leading-none mb-2">03</div>
+          <h3 class="text-xl font-semibold text-white mb-3">See your dashboard</h3>
+          <p class="text-[#a1a1aa] leading-[1.7]">Per-feature cost breakdown, token usage, and trend graphs — updated in real time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitor Comparison -->
+  <section class="py-24 px-6">
+    <div class="max-w-[1280px] mx-auto">
+      <p class="text-[12px] uppercase tracking-[0.2em] text-[#C9A84C] font-semibold mb-4">WHY LLMETER</p>
+      <h2 class="text-[36px] font-bold text-white mb-12">Built for developers, not data teams.</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#111111] border border-[#1e1e1e] rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-6 pb-4 border-b border-[#1e1e1e]">LangSmith</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Setup time</span><span class="text-[#f4f4f5] font-medium">Hours</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Framework required</span><span class="text-[#f4f4f5] font-medium">LangChain</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Per-feature costs</span><span class="text-[#ef4444]">❌</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Solo dev friendly</span><span class="text-[#C9A84C]">⚠️</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Real-time alerts</span><span class="text-[#ef4444]">❌</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">One-line install</span><span class="text-[#ef4444]">❌</span></div>
+          </div>
+        </div>
+        <div class="bg-[#111111] border border-[#1e1e1e] rounded-xl p-6">
+          <h3 class="text-xl font-semibold text-white mb-6 pb-4 border-b border-[#1e1e1e]">Arize</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Setup time</span><span class="text-[#f4f4f5] font-medium">Days</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Framework required</span><span class="text-[#f4f4f5] font-medium">Any</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Per-feature costs</span><span class="text-[#22c55e]">✅</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Solo dev friendly</span><span class="text-[#ef4444]">❌</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Real-time alerts</span><span class="text-[#22c55e]">✅</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">One-line install</span><span class="text-[#ef4444]">❌</span></div>
+          </div>
+        </div>
+        <div class="bg-[#111111] border border-[#C9A84C] rounded-xl p-6 relative">
+          <div class="absolute -top-3 left-6 bg-[#C9A84C] text-black text-xs font-bold px-3 py-1 rounded-full">Best for Devs</div>
+          <h3 class="text-xl font-semibold text-white mb-6 pb-4 border-b border-[#1e1e1e]">LLMeter</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Setup time</span><span class="text-[#f4f4f5] font-medium">2 minutes</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Framework required</span><span class="text-[#f4f4f5] font-medium">Any</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Per-feature costs</span><span class="text-[#22c55e]">✅</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Solo dev friendly</span><span class="text-[#22c55e]">✅</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">Real-time alerts</span><span class="text-[#22c55e]">✅</span></div>
+            <div class="flex justify-between items-center text-sm"><span class="text-[#a1a1aa]">One-line install</span><span class="text-[#22c55e]">✅</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Bar -->
+  <section class="bg-[#111111] py-4 px-6">
+    <div class="max-w-[1280px] mx-auto text-center text-[#a1a1aa] text-sm">
+      🔒 Early access open · Works with any LLM API · Free during beta
+    </div>
+  </section>
+
+  <!-- Early Access CTA -->
+  <section id="early-access" class="py-24 px-6">
+    <div class="max-w-[1280px] mx-auto text-center">
+      <h2 class="text-[36px] font-bold text-white mb-4">Know exactly what your AI costs.<br>Start free today.</h2>
+      <p class="text-[#a1a1aa] text-lg mb-10">Free during beta. No credit card required. Cancel anytime.</p>
+      <div id="signup-form" class="max-w-md mx-auto">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="email" id="email-input" placeholder="Enter your work email" 
+            class="flex-1 bg-[#111111] border border-[#1e1e1e] rounded-lg px-4 py-3 text-white placeholder-[#a1a1aa] focus:outline-none focus:border-[#C9A84C] transition-colors">
+          <button id="submit-btn" 
+            class="bg-[#C9A84C] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#A8892E] transition-all duration-200 hover:scale-105 whitespace-nowrap">
+            Get Early Access →
+          </button>
+        </div>
+        <p id="error-msg" class="text-[#ef4444] text-sm mt-2 hidden text-left">Please enter a valid email.</p>
+      </div>
+      <div id="success-msg" class="hidden">
+        <p class="text-[#22c55e] text-[18px]">✓ You're on the list. We'll be in touch soon.</p>
+      </div>
+      <iframe id="form-iframe" name="form-iframe" style="display:none;"></iframe>
+      <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-[#a1a1aa] text-sm">
+        <span>✓ Free during beta</span>
+        <span>✓ Works with any LLM</span>
+        <span>✓ No lock-in</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#1e1e1e] bg-[#0a0a0a] py-6 px-6">
+    <div class="max-w-[1280px] mx-auto flex flex-col sm:flex-row items-center justify-between text-[#a1a1aa] text-sm">
+      <span>© 2026 LLMeter</span>
+      <div class="flex items-center gap-4 mt-2 sm:mt-0">
+        <span>Built by Aryan</span>
+        <span>&nbsp;·&nbsp;</span>
+        <a href="https://x.com/Aryan_CEO_2007" target="_blank" rel="noopener" class="hover:text-[#f4f4f5] transition-colors">Twitter / X</a>
+        <span>&nbsp;·&nbsp;</span>
+        <a href="https://www.linkedin.com/in/aryan-jambholkar-029469405" target="_blank" rel="noopener" class="hover:text-[#f4f4f5] transition-colors">LinkedIn</a>
+        <span>&nbsp;·&nbsp;</span>
+        <a href="#" id="privacy-link" class="hover:text-[#f4f4f5] transition-colors">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const FORM_ID = "1eKH35v7qDrwFIviHPyHIkFsaeviRNJErjyCnNfPPye4";
+    const EMAIL_FIELD = "entry.250059284";
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.classList.add('border-b', 'border-[#1e1e1e]');
+      } else {
+        navbar.classList.remove('border-b', 'border-[#1e1e1e]');
+      }
+    });
+
+    const painCards = document.querySelectorAll('.pain-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.remove('opacity-0', 'translate-y-4');
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    painCards.forEach(card => observer.observe(card));
+
+    const emailInput = document.getElementById('email-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorMsg = document.getElementById('error-msg');
+    const signupForm = document.getElementById('signup-form');
+    const successMsg = document.getElementById('success-msg');
+    const formIframe = document.getElementById('form-iframe');
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      if (!isValidEmail(email)) { errorMsg.classList.remove('hidden'); return; }
+      errorMsg.classList.add('hidden');
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = `https://docs.google.com/forms/d/${FORM_ID}/formResponse`;
+      form.target = 'form-iframe';
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = EMAIL_FIELD;
+      input.value = email;
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+      setTimeout(() => {
+        signupForm.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+      }, 800);
+    });
+
+    emailInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submitBtn.click();
+    });
+
+    const privacyLink = document.getElementById('privacy-link');
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyClose = document.getElementById('privacy-close');
+
+    if (privacyLink && privacyModal && privacyClose) {
+      privacyLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        privacyModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+
+      privacyClose.addEventListener('click', function() {
+        privacyModal.style.display = 'none';
+        document.body.style.overflow = '';
+      });
+
+      privacyModal.addEventListener('click', function(e) {
+        if (e.target === privacyModal) {
+          privacyModal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  </script>
+
+  <!-- Privacy Modal -->
+  <div id="privacy-modal" style="display:none;" class="fixed inset-0 z-50 bg-black/80 items-center justify-center p-6">
+    <div class="bg-[#111111] border border-[#1e1e1e] rounded-xl max-w-[600px] w-full p-10 relative">
+      <button id="privacy-close" class="absolute top-4 right-4 text-[#a1a1aa] hover:text-[#C9A84C] text-[24px] transition-colors">✕</button>
+      <h2 class="text-white font-bold text-[24px] mb-2">Privacy Policy</h2>
+      <p class="text-[#a1a1aa] text-[13px] mb-6">Last updated: May 2026</p>
+      <div class="text-[#a1a1aa] text-[15px] leading-[1.8]">
+        <h3 class="text-white font-bold text-[16px] mt-5 mb-2">What We Collect</h3>
+        <p>We collect only your email address when you submit the early access waitlist form. Nothing else. No cookies, no tracking scripts, no analytics.</p>
+        <h3 class="text-white font-bold text-[16px] mt-5 mb-2">How We Use It</h3>
+        <p>Your email is used solely to send early access updates and product announcements for LLMeter. We will never sell or share your email with any third party.</p>
+        <h3 class="text-white font-bold text-[16px] mt-5 mb-2">Data Storage</h3>
+        <p>Emails are stored via Google Forms only. No proprietary server or database holds your data at this stage of the product.</p>
+        <h3 class="text-white font-bold text-[16px] mt-5 mb-2">Your Rights</h3>
+        <p>You can request deletion of your email at any time. To do so, contact us at: <a href="mailto:aryan@llmeter.com" style="color:#C9A84C;">aryan@llmeter.com</a></p>
+        <h3 class="text-white font-bold text-[16px] mt-5 mb-2">Changes to This Policy</h3>
+        <p>This policy may be updated as the product grows. Continued use of the waitlist form constitutes acceptance of the latest version.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
